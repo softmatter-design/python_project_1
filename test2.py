@@ -3,12 +3,13 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 from pyrespect_time import ReSpect, ReSpectConfig
+import os
 
 def main():
     st.title('試験')
     df = upload_file()
-    # if not df.empty:
-    #     select_col(df)
+
+    download()
     return
 
 def upload_file():
@@ -105,9 +106,23 @@ def show_mod_df(tmp_df, base, init_time, init_g):
         print(solver.discrete.tau)    # discrete relaxation times
         print(solver.discrete.g)      # discrete mode weights
 
-        solver.save(which="base", path="output/")
-        solver.plot(which="base", toFile=True, path="output/")
+        solver.save(which="full", path="output/")
+        solver.plot(which="full", toFile=True, path="output/")
     return selected_df
+
+def download():
+    dir_path = './output'
+    files = [f for f in os.listdir(dir_path) if os.path.isfile(os.path.join(dir_path, f))]
+
+    filename = st.selectbox('ダウンロードする画像を選択', files)
+    print(filename)
+
+    with open(os.path.join(dir_path, filename), "rb") as file:
+        st.download_button(
+            label='ダウンロード',
+            data=file,
+            file_name=filename
+        )
 
 # ===== 使用例 =====
 if __name__ == "__main__":
