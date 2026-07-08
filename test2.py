@@ -6,6 +6,10 @@ from pyrespect_time import ReSpect, ReSpectConfig
 import os
 
 def main():
+    st.set_page_config(
+    page_title="シンプルアプリ",
+    layout="wide"
+        )
     st.title('試験')
     df = upload_file()
 
